@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx
+  namespace: epam
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+#  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: nginx:1.18.0
+        imagePullPolicy: IfNotPresent
+        name: nginx
+        ports:
+          - containerPort: 80
+            name: http-ng
+            protocol: TCP  
+
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx
+  name: nginx
+  namespace: epam
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      nodePort: 31888
+  selector:
+    app: nginx
+  type: NodePort
