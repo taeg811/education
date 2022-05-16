@@ -1,0 +1,7 @@
+sa-namespace-admin-token-6cld2
+
+#get token
+kubectl -n default describe secret $(kubectl -n default get secret | (grep sa-namespace-admin || echo "$_") | awk '{print $1}') | grep token: | awk '{print $2}'\n
+
+#get client-key-data
+kubectl  -n default get secret `kubectl -n default get secret | (grep sa-namespace-admin || echo "$_") | awk '{print $1}'` -o "jsonpath={.data['ca\.crt']}"
